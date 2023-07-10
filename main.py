@@ -34,14 +34,12 @@ if __name__ == '__main__':
 
     rows = [f'{i}x | {row}' for i, row in enumerate(loto_result)]
 
-    rows.insert(0, f'Giải đặc biệt: {special:02d}')
-    rows.insert(0, f'Kết quả ngày: {date:%d-%m-%Y}')
+    rows.insert(0, f'Số đặc biệt: {special:02d}')
+    rows.insert(0, f'Số may mắn ngày: {date:%d-%m-%Y}')
     rows.insert(1, '')
     rows.insert(3, '')
     message = '\n'.join(rows)
 
-    loop = asyncio.get_event_loop()
-    result = loop.run_until_complete(send_message(message))
-    loop.close()
+    result = asyncio.run(send_message(message))
 
     sys.exit(int(not result))
