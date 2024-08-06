@@ -1,18 +1,15 @@
-
 __author__ = 'Khiem Doan'
 __github__ = 'https://github.com/khiemdoan'
 __email__ = 'doankhiem.crazy@gmail.com'
 
-import asyncio
-import sys
 from datetime import datetime
 
 import httpx
 
-from messenger import send_message
+from telegram import Telegram
 
 if __name__ == '__main__':
-    url = 'https://raw.githubusercontent.com/khiemdoan/vietnam-lottery-xsmb-analysis/main/results/xsmb_1_year.csv'
+    url = 'https://raw.githubusercontent.com/khiemdoan/vietnam-lottery-xsmb-analysis/main/data/xsmb-2-digits.csv'
     response = httpx.get(url)
     raw = response.text
     rows = [r for r in raw.split('\n') if len(r) > 0]
@@ -40,6 +37,5 @@ if __name__ == '__main__':
     rows.insert(3, '')
     message = '\n'.join(rows)
 
-    result = asyncio.run(send_message(message))
-
-    sys.exit(int(not result))
+    with Telegram() as tele:
+        tele.send_message(message)
